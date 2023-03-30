@@ -1,0 +1,43 @@
+-- SQLBook: Code
+-- Active: 1680121761226@@127.0.0.1@3306@STUDENT_SCHEMA
+SHOW TABLES;
+-- SQLBook: Code
+-- Active: 1680121761226@@127.0.0.1@3306@STUDENT_SCHEMA
+CREATE TABLE Student(
+    student_id VARCHAR(10) primary key check(student_id like 'S%'),
+    name VARCHAR(50),
+    course_id varchar(10) check(course_id like 'C%'),
+    session int
+);
+
+CREATE TABLE Course(
+    course_id varchar(10) check(course_id like 'C%'),
+    course_name varchar(50),
+    dept_id varchar(10) check(dept_id like 'D%')
+);
+
+CREATE TABLE Department(
+    dept_id varchar(10) primary key check(dept_id like 'D%'),
+    dept_name varchar(50),
+    dept_head varchar(50)
+);
+
+desc Student;
+
+alter table Course
+add primary key (course_id);
+
+desc Course;
+
+alter table Student
+add foreign key (course_id) references Course(course_id);
+
+alter table Student
+MODIFY COLUMN session int check(session between 2015 and 2025),
+ADD dept_id varchar(10) check (dept_id like 'D%'),
+add foreign key (dept_id) references Department(dept_id);
+
+alter table Course
+add FOREIGN KEY (dept_id) REFERENCES `Department`(dept_id);
+
+desc Department;
